@@ -1,3 +1,4 @@
 # ignore all files in the build/ directory
 myapp2/node_modules/
 myapp2/uploads/
+myapp2/data
