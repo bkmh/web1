@@ -2,9 +2,27 @@ const express = require('express');
 const app = express();
 const port = 3000 || process.env.PORT;
 const Web3 = require('web3');
-//const truffle_connect = require('./connection/app.js');
+const truffle_connect = require('./src/etherApp.js');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
+
+// multer storage setup
+var _storage = multer.diskStorage({
+  // 사용자가 전송한 파일의 저장위치
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+
+  // 사용자 전송한 파일의 파일명
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+var upload = multer({ storage: _storage });
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,6 +32,14 @@ app.use(bodyParser.json());
 
 app.use('/', express.static('public'));
 
+
+
+app.get('/', (req, res) => {
+
+  res.sendFile('/index.html');
+});
+
+/*
 app.get('/getAccounts', (req, res) => {
   console.log("**** GET /getAccounts ****");
   truffle_connect.start(function (answer) {
@@ -49,6 +75,7 @@ app.post('/sendCoin', (req, res) => {
     res.send(balance);
   });
 });
+*/
 
 app.listen(port, () => {
 
